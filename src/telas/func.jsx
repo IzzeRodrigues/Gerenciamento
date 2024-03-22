@@ -36,7 +36,7 @@ function data() {
   .then ((json) => setFuncionarios(json))
 }
 function Demitir(id) {
-  fetch(`http://localhost/projeto/api/demissao/${id}`,{body:post},{headers : {'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'}} ,{method: 'DELETE'});
+  fetch(`http://localhost/projeto/api/demissao/${id}`,{headers : {'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'}} ,{method: 'DELETE'});
     alert("Funcionário removido do sistema!");
 }
 function Telefone(id, novoTelefone) {
@@ -107,7 +107,7 @@ useEffect(() => {
                 <p className="block text-gray-700 text-sm font-bold ">Salário</p>
                   <p>R${usuarios.vl_salario},00</p>
       
-                    <Button className='font-light my-3 bg-gray-600 rounded-2xl p-2 text-white' onClick={handleOpen2}>Adicionar promoção</Button>
+                    {/* <Button className='font-light my-3 bg-gray-600 rounded-2xl p-2 text-white' onClick={handleOpen2}>Adicionar promoção</Button>
                       <Dialog open={open2} size="xs" handler={handleOpen2}>
                         <form method="POST" >
                           <DialogBody className="bg-white rounded-lg">
@@ -118,7 +118,7 @@ useEffect(() => {
                           <Button onClick={() => {Salario(usuarios.id_funcionario, novoSalario);{handleOpen2};}} className='block my-3 bg-gray-600 rounded-2xl p-1 text-white'>Guardar Promoção</Button>
                           </DialogFooter>
                         </form> 
-                      </Dialog>
+                      </Dialog> */}
 
                 <p className="block text-gray-700 text-sm font-bold ">Data de Contrato</p>
                   <p>{usuarios.dt_contrato}</p>
