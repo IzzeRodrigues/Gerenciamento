@@ -31,7 +31,7 @@ export default function criar() {
       desc:desc
     };
     try {
-      await axios.post("http://localhost/projeto/api/cadastrados",{ body: post },{headers : {'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'}});
+      await axios.post("http://localhost/Gerenciamento/api/cadastrados",{ body: post },{headers : {'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'}});
       alert("Funcionário cadastrado com sucesso!");
       location.href = "http://localhost:5173/funcionarios";
      } catch (error) {
