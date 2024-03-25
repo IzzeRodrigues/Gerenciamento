@@ -73,7 +73,7 @@ export default function criar() {
           <label className="block text-gray-700 text-sm font-bold ">Cargo</label>
             <input className="w-[18rem] shadow border rounded mb-3"  name="cargo"onChange={(e) => setCargo(e.target.value)} type="text" placeholder="Gestão de Risco"/>
           <label className="block text-gray-700 text-sm font-bold ">Salário</label>
-            <input value={preco} className="w-[18rem] shadow border rounded mb-3"  name="salario" onBlur={(e) => {setSal(e.target.value)}} onChange={Preco} type="text" placeholder="R$0000,00"/>
+            <input maxLength={10} value={preco} className="w-[18rem] shadow border rounded mb-3"  name="salario" onBlur={(e) => {setSal(e.target.value)}} onChange={Preco} type="text" placeholder="R$0000,00"/>
           <label className="block text-gray-700 text-sm font-bold ">Início de Contrato</label>
             <input className="w-[18rem] shadow border rounded mb-3"  name="contrato" onChange={(e) => setContrato(e.target.value)} type="text" placeholder="Maio - 1997"/>
           <label className="block text-gray-700 text-sm font-bold ">Link da Foto do funcionário</label>

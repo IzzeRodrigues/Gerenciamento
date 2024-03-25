@@ -20,8 +20,8 @@ $app ->get('/demissao/{id}','getDemissao');
 
 function getCadastro(Request $request, Response $response, array $args) {
     $user = $request->getParsedBody();
-    if ($user == ""){
-        error_log();
+     if (empty($user['name']) || empty($user['sexo']) || empty($user['endereco']) || empty($user['nascimento']) || empty($user['num']) || empty($user['cargo']) || empty($user['contrato']) || empty($user['salario']) || empty($user['foto']) || empty($user['desc'])) { 
+        return $response->withJson(['error' => 'Todos os campos são obrigatórios'], 400);
     } else {
         $nome = $user['body']['name'];
         $sexo =  $user['body']['sexo'];
@@ -33,10 +33,10 @@ function getCadastro(Request $request, Response $response, array $args) {
         $salario =  $user['body']['salario'];
         $foto =  $user['body']['foto'];
         $desc =  $user['body']['desc'];
-
     $sql = "INSERT INTO tb_funcionario(nm_funcionario, cd_sexo, nm_endereco, dt_nasc, nu_telefone, nm_cargo, vl_salario, dt_contrato,img_foto,dc_descricao) 
     VALUES('$nome', '$sexo', '$endereco', '$nascimento', '$num', '$cargo', '$salario', '$contrato', '$foto','$desc')";
     $stmt = getConn()->query($sql);
+    return $response->withJson(['success' => 'Funcionário cadastrado com sucesso'], 200);
     }
 }
 function getFuncionarios(Request $request, Response $response, array $args) {

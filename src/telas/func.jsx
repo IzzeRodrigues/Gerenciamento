@@ -1,17 +1,16 @@
 import { useEffect, useState, useRef, React } from "react";
 import { GoArrowLeft } from "react-icons/go";
-import generatePDF from 'react-to-pdf';
 import {Button,Dialog,DialogBody,DialogFooter} from "@material-tailwind/react"; 
 import InputMask from 'react-input-mask';
-
+import generatePDF from 'react-to-pdf';
 
 const Func = () => {
 
 const targetRef = useRef();
-
 const [banco_funcionarios, setFuncionarios] = useState([]);
 const [novoTelefone, setNovoTelefone] = useState([]);
 const [novoSalario, setNovoSalario] = useState([]);
+const [preco, setPreco] = useState('');
 
 const [openDialogIndex, setOpenDialogIndex] = useState(null);
 const handleOpenDialog = (index) => {
@@ -77,8 +76,6 @@ useEffect(() => {
   data();
 }, []);
 
-const [preco, setPreco] = useState('');
-
 const Preco = (e) => {
    let value = e.target.value.replace(/[^\d]/g, '');
    value = `R$ ${value}`;
@@ -94,7 +91,6 @@ const Preco = (e) => {
       <h1 className="font-serif text-xl">Ver Funcionários Cadastrados</h1>
       <hr className="mt-2" />
         <form method="GET" ref={targetRef}>
-       
           {banco_funcionarios.map((usuarios, index) =>
             <div className="grid grid-cols-2 m-3" key={usuarios.id_funcionario}>
               <div>
@@ -109,7 +105,7 @@ const Preco = (e) => {
                 <p className="block text-gray-700 text-sm font-bold ">Telefone</p>
                   <p>{usuarios.nu_telefone}</p>
                   
-                  <Button className='font-light my-3 bg-gray-600 rounded-2xl p-2 text-white'onClick={() => handleOpenDialog2(index)}>Alterar Contato</Button>
+                  <Button data-html2canvas-ignore="true" className='font-light my-3 bg-gray-600 rounded-2xl p-2 text-white'onClick={() => handleOpenDialog2(index)}>Alterar Contato</Button>
                       <Dialog open={openDialogIndex2 === index} size="xs" handler={handleCloseDialog2}>
                         <form method="POST" >
                           <DialogBody className="bg-white rounded-lg">
@@ -126,7 +122,7 @@ const Preco = (e) => {
                   <p>{usuarios.nm_cargo}</p>
                 <p className="block text-gray-700 text-sm font-bold ">Salário</p>
                   <p>{usuarios.vl_salario}</p>
-                    <Button className='font-light my-3 bg-gray-600 rounded-2xl p-2 text-white' onClick={() => handleOpenDialog1(index)}>Adicionar promoção</Button>
+                    <Button data-html2canvas-ignore="true" className='font-light my-3 bg-gray-600 rounded-2xl p-2 text-white' onClick={() => handleOpenDialog1(index)}>Adicionar promoção</Button>
                       <Dialog open={openDialogIndex1 === index} size="xs" handler={handleCloseDialog1}>
                         <form method="POST" >
                           <DialogBody className="bg-white rounded-lg">
@@ -144,7 +140,7 @@ const Preco = (e) => {
               </div>
             <img className="w-[8rem] h-[8rem] rounded-full drop-shadow" src={usuarios.img_foto}/>
 
-            <Button className='font-light my-3 bg-gray-600 rounded-2xl p-2 text-white' onClick={() => handleOpenDialog(index)}>Veja o Histórico de {usuarios.nm_funcionario}
+            <Button data-html2canvas-ignore="true" className='font-light my-3 bg-gray-600 rounded-2xl p-2 text-white' onClick={() => handleOpenDialog(index)}>Veja o Histórico de {usuarios.nm_funcionario}
               </Button>
               <Dialog open={openDialogIndex === index} size="xs" handler={handleCloseDialog}>
                 <DialogBody className="bg-white rounded-lg">
@@ -154,13 +150,18 @@ const Preco = (e) => {
                   <Button onClick={handleCloseDialog} className='block bg-gray-600 rounded-2xl p-2 text-white'>Fechar</Button>
                 </DialogFooter>
               </Dialog>
+{/* 
+              <div data-html2canvas-ignore="false" className="border-black rounded-lg shadow-sm">
+                <p>Veja o Histórico de {usuarios.nm_funcionario}</p>
+                <p>{usuarios.dc_descricao}</p>
+              </div> */}
+              <button data-html2canvas-ignore="true" className="my-1 bg-red-600 rounded-2xl p-1 col-span-2 text-white" onClick={() => Demitir(usuarios.id_funcionario)}>Demitir</button>  
 
-              <button className="my-1 bg-red-600 rounded-2xl p-1 col-span-2 text-white" onClick={() => Demitir(usuarios.id_funcionario)}>Demitir</button>           
           <hr className="col-span-2 border-l-slate-700 my-3 drop-shadow" />
          </div> )}
         </form>
         <div className="m-3">            
-            <button onClick={() => { generatePDF(targetRef, {filename: 'page.pdf'})}}type="submit" className='block my-3 bg-blue-600 rounded-2xl p-1 text-white w-full'>Gerar PDF</button>
+            <button onClick={() => {generatePDF(targetRef, {filename: 'page.pdf'})}} type="submit" className='block my-3 bg-blue-600 rounded-2xl p-1 text-white w-full'>Gerar PDF</button>
         </div>
     </div>
   );
