@@ -62,7 +62,7 @@ function getTelefone(Request $request, Response $response, array $args){
     $conn = getConn();
     $sql = "UPDATE tb_funcionario SET nu_telefone = '$novoTelefone' WHERE id_funcionario = :id";
     $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':id', $id);
+    $stmt->bindParam('id', $id);
     $stmt->execute();
     return $response;
 };
@@ -74,7 +74,7 @@ function getSalario(Request $request, Response $response, array $args){
     $conn = getConn();
     $sql = "UPDATE tb_funcionario SET vl_salario = '$novoSalario' WHERE id_funcionario = :id";
     $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':id', $id);
+    $stmt->bindParam('id', $id);
     $stmt->execute();
     return $response;
 };

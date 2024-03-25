@@ -10,13 +10,7 @@ const targetRef = useRef();
 const [banco_funcionarios, setFuncionarios] = useState([]);
 const [novoTelefone, setNovoTelefone] = useState([]);
 const [novoSalario, setNovoSalario] = useState([]);
-const [classeCSS, setClasseCSS] = useState('hidden');
-
-const [open1, setOpen1] = useState(false);
-const [open2, setOpen2] = useState(false);
-
-const handleOpen1 = () => setOpen1((cur) => !cur);
-const handleOpen2 = () => setOpen2((cur) => !cur);
+const [gerandoPDF, setGerandoPDF] = useState(false);
 
 const [openDialogIndex, setOpenDialogIndex] = useState(null);
 const handleOpenDialog = (index) => {
@@ -26,9 +20,21 @@ const handleCloseDialog = () => {
   setOpenDialogIndex(null);
 };
 
-function exibe() {
-  setClasseCSS(classeCSS === 'hidden' ? 'block' : 'hidden');
-}
+const [openDialogIndex1, setOpenDialogIndex1] = useState(null);
+const handleOpenDialog1 = (index) => {
+  setOpenDialogIndex1(index);
+};
+const handleCloseDialog1 = () => {
+  setOpenDialogIndex1(null);
+};
+
+const [openDialogIndex2, setOpenDialogIndex2] = useState(null);
+const handleOpenDialog2 = (index) => {
+  setOpenDialogIndex2(index);
+};
+const handleCloseDialog2 = () => {
+  setOpenDialogIndex2(null);
+};
 
 function data() {
   fetch('http://localhost/Gerenciamento/api/funcionarios')
@@ -75,6 +81,7 @@ useEffect(() => {
       <h1 className="font-serif text-xl">Ver Funcionários Cadastrados</h1>
       <hr className="mt-2" />
         <form method="GET" ref={targetRef}>
+       
           {banco_funcionarios.map((usuarios, index) =>
             <div className="grid grid-cols-2 m-3" key={usuarios.id_funcionario}>
               <div>
@@ -89,15 +96,15 @@ useEffect(() => {
                 <p className="block text-gray-700 text-sm font-bold ">Telefone</p>
                   <p>{usuarios.nu_telefone}</p>
                   
-                  <Button className='font-light my-3 bg-gray-600 rounded-2xl p-2 text-white' onClick={handleOpen1}>Alterar Contato</Button>
-                      <Dialog open={open1} size="xs" handler={handleOpen1}>
+                  <Button className='font-light my-3 bg-gray-600 rounded-2xl p-2 text-white'onClick={() => handleOpenDialog2(index)}>Alterar Contato</Button>
+                      <Dialog open={openDialogIndex2 === index} size="xs" handler={handleCloseDialog2}>
                         <form method="POST" >
                           <DialogBody className="bg-white rounded-lg">
                           <p className="block text-gray-700 text-sm font-bold ">Telefone</p>
-                            <input onChange={(e) => setNovoTelefone(e.target.value)} className="w-[18rem] shadow border rounded my-3 p-1" placeholder="Novo Telefone Aqui!"></input>
+                            <input onChange={(e) => setNovoTelefone(e.target.value)} className="w-[15rem] shadow border rounded my-3 p-1" placeholder="Novo Telefone Aqui!"></input>
                           </DialogBody>
                           <DialogFooter >
-                          <Button onClick={() => {Telefone(usuarios.id_funcionario, novoTelefone);{handleOpen1};}} className='block my-3 bg-gray-600 rounded-2xl p-1 text-white'>Guardar Telefone</Button>
+                          <Button onClick={() => {Telefone(usuarios.id_funcionario, novoTelefone)}} className='block my-3 bg-gray-600 rounded-2xl p-2 text-white'>Guardar Telefone</Button>
                           </DialogFooter>
                         </form> 
                       </Dialog>
@@ -107,15 +114,15 @@ useEffect(() => {
                 <p className="block text-gray-700 text-sm font-bold ">Salário</p>
                   <p>R${usuarios.vl_salario},00</p>
       
-                    <Button className='font-light my-3 bg-gray-600 rounded-2xl p-2 text-white' onClick={handleOpen2}>Adicionar promoção</Button>
-                      <Dialog open={open2} size="xs" handler={handleOpen2}>
+                    <Button className='font-light my-3 bg-gray-600 rounded-2xl p-2 text-white' onClick={() => handleOpenDialog1(index)}>Adicionar promoção</Button>
+                      <Dialog open={openDialogIndex1 === index} size="xs" handler={handleCloseDialog1}>
                         <form method="POST" >
                           <DialogBody className="bg-white rounded-lg">
                           <p className="block text-gray-700 text-sm font-bold ">Salário Novo</p>
-                            <input onChange={(e) => setNovoSalario(e.target.value)} className="w-[18rem] shadow border rounded my-3 p-1" placeholder="Novo Salário Aqui!"></input>
+                            <input onChange={(e) => setNovoSalario(e.target.value)} className="w-[15rem] shadow border rounded my-3 p-1" placeholder="Novo Salário Aqui!"></input>
                           </DialogBody>
                           <DialogFooter >
-                          <Button onClick={() => {Salario(usuarios.id_funcionario, novoSalario);{handleOpen2};}} className='block my-3 bg-gray-600 rounded-2xl p-1 text-white'>Guardar Promoção</Button>
+                          <Button onClick={() => {Salario(usuarios.id_funcionario, novoSalario)}} className='block my-3 bg-gray-600 rounded-2xl p-2 text-white'>Guardar Promoção</Button>
                           </DialogFooter>
                         </form> 
                       </Dialog>
@@ -125,24 +132,23 @@ useEffect(() => {
               </div>
             <img className="w-[8rem] h-[8rem] rounded-full drop-shadow" src={usuarios.img_foto}/>
 
-            <Button className='font-light my-3 bg-gray-600 rounded-2xl p-2 text-white' onClick={() => handleOpenDialog(index)}>
-              Veja o Histórico de {usuarios.nm_funcionario}
-            </Button>
-            <Dialog open={openDialogIndex === index} size="xs" handler={handleCloseDialog}>
-              <DialogBody className="bg-white rounded-lg">
-                <textarea disabled className="resize-none w-full h-[8rem]">{usuarios.dc_descricao}</textarea>
-              </DialogBody>
-              <DialogFooter>
-                <Button onClick={handleCloseDialog} className='block bg-gray-600 rounded-2xl p-2 text-white'>Fechar</Button>
-              </DialogFooter>
-            </Dialog>
+            <Button className='font-light my-3 bg-gray-600 rounded-2xl p-2 text-white' onClick={() => handleOpenDialog(index)}>Veja o Histórico de {usuarios.nm_funcionario}
+              </Button>
+              <Dialog open={openDialogIndex === index} size="xs" handler={handleCloseDialog}>
+                <DialogBody className="bg-white rounded-lg">
+                  <textarea disabled className="resize-none w-full h-[8rem]">{usuarios.dc_descricao}</textarea>
+                </DialogBody>
+                <DialogFooter>
+                  <Button onClick={handleCloseDialog} className='block bg-gray-600 rounded-2xl p-2 text-white'>Fechar</Button>
+                </DialogFooter>
+              </Dialog>
             
-              <button className='my-1 bg-red-600 rounded-2xl p-1 col-span-2 text-white' onClick={() => Demitir(usuarios.id_funcionario)}>Demitir</button>           
+              <button className={`my-1 bg-red-600 rounded-2xl p-1 col-span-2 text-white ${gerandoPDF && 'btn-pdf-exclude'}`} onClick={() => Demitir(usuarios.id_funcionario)}>Demitir</button>           
           <hr className="col-span-2 border-l-slate-700 my-3 drop-shadow" />
          </div> )}
         </form>
         <div className="m-3">            
-            <button onClick={() => { generatePDF(targetRef, {filename: 'page.pdf'}); {exibe}; }}type="submit" className='block my-3 bg-blue-600 rounded-2xl p-1 text-white w-full'>Gerar PDF</button>
+            <button onClick={() => { generatePDF(targetRef, {filename: 'page.pdf'})}}type="submit" className='block my-3 bg-blue-600 rounded-2xl p-1 text-white w-full'>Gerar PDF</button>
         </div>
     </div>
   );
