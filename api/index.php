@@ -20,6 +20,9 @@ $app ->get('/demissao/{id}','getDemissao');
 
 function getCadastro(Request $request, Response $response, array $args) {
     $user = $request->getParsedBody();
+    if ($user == ""){
+        error_log();
+    } else {
         $nome = $user['body']['name'];
         $sexo =  $user['body']['sexo'];
         $endereco = $user['body']['endereco'];
@@ -30,9 +33,7 @@ function getCadastro(Request $request, Response $response, array $args) {
         $salario =  $user['body']['salario'];
         $foto =  $user['body']['foto'];
         $desc =  $user['body']['desc'];
-    if ($user == "" || $user == null){
-        error_log();
-    } else {
+
     $sql = "INSERT INTO tb_funcionario(nm_funcionario, cd_sexo, nm_endereco, dt_nasc, nu_telefone, nm_cargo, vl_salario, dt_contrato,img_foto,dc_descricao) 
     VALUES('$nome', '$sexo', '$endereco', '$nascimento', '$num', '$cargo', '$salario', '$contrato', '$foto','$desc')";
     $stmt = getConn()->query($sql);
@@ -50,7 +51,7 @@ function getDemissao(Request $request, Response $response, array $args){
     $conn = getConn();
     $sql = "DELETE FROM tb_funcionario WHERE id_funcionario=:id";
     $stmt = $conn->prepare($sql);
-    $stmt->bindParam('id',$id);
+    $stmt->bindParam(':id',$id);
     $stmt->execute();
     return $response;
 };

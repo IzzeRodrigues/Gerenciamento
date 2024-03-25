@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { GoArrowLeft } from "react-icons/go";
+import InputMask from 'react-input-mask';
 
 export default function criar() {
  
@@ -14,7 +15,6 @@ export default function criar() {
   const [salario, setSal] = useState([]);
   const [foto, setFoto] = useState([]);
   const [desc, setDesc] = useState([]);
-
 
   const enviaCadastro = async (e) =>{ 
     e.preventDefault();
@@ -39,6 +39,17 @@ export default function criar() {
      }
    };
 
+   const [preco, setPreco] = useState('');
+
+   const Preco = (e) => {
+      let value = e.target.value.replace(/[^\d]/g, '');
+      value = `R$ ${value}`;
+      if (value.length > 3) {
+        value = `${value.slice(0,-2)}.${value.slice(-2)}`;
+      }
+      setPreco(value);
+   };
+
   return (
     <div className="m-3">
       <button onClick={() => navigation.navigate('/')}><GoArrowLeft /></button>
@@ -53,21 +64,24 @@ export default function criar() {
           <label className="block text-gray-700 text-sm font-bold ">Endereço Completo</label>
             <input className="w-[18rem] shadow border rounded mb-3"  name="endereco"onChange={(e) => setEnd(e.target.value)} type="text" placeholder="Rua Exemplo, Número X"/>
           <label className="block text-gray-700 text-sm font-bold ">Data de Nascimento</label>
-            <input className="w-[18rem] shadow border rounded mb-3"  name="nascimento"onChange={(e) => setNasc(e.target.value)} type="text" placeholder="15/06/2005"/>
-          <label className="block text-gray-700 text-sm font-bold ">Número de Telefone</label>
-            <input className="w-[18rem] shadow border rounded mb-3"  name="telefone"onChange={(e) => setNum(e.target.value)} type="text" placeholder="(13) 99999-9999"/>
+            <InputMask mask="99/99/9999" className="w-[18rem] shadow border rounded mb-3"  name="nascimento"onChange={(e) => setNasc(e.target.value)} type="text" placeholder="15/06/2005"/>
+          <label className="block text-gray-700 text-sm font-bold ">Número de Telefone com DDD</label>
+            <InputMask mask="(99) 9 9999-9999" maskChar="_" className="w-[18rem] shadow border rounded mb-3"  name="telefone"onChange={(e) => setNum(e.target.value)} type="text" placeholder="(13) 99999-9999"/>
             <hr className="my-2" />
-            <h1 className="font-serif text-xl">Dados empresariais</h1>
-            <label className="block text-gray-700 text-sm font-bold ">Cargo</label>
+          
+          <h1 className="font-serif text-xl">Dados empresariais</h1>
+          <label className="block text-gray-700 text-sm font-bold ">Cargo</label>
             <input className="w-[18rem] shadow border rounded mb-3"  name="cargo"onChange={(e) => setCargo(e.target.value)} type="text" placeholder="Gestão de Risco"/>
           <label className="block text-gray-700 text-sm font-bold ">Salário</label>
-            <input className="w-[18rem] shadow border rounded mb-3"  name="salario"onChange={(e) => setSal(e.target.value)} type="text" placeholder="R$1200,00"/>
+            <input value={preco} className="w-[18rem] shadow border rounded mb-3"  name="salario" onBlur={(e) => {setSal(e.target.value)}} onChange={Preco} type="text" placeholder="R$0000,00"/>
           <label className="block text-gray-700 text-sm font-bold ">Início de Contrato</label>
-            <input className="w-[18rem] shadow border rounded mb-3"  name="contrato"onChange={(e) => setContrato(e.target.value)} type="text" placeholder="Maio - 1997"/>
-            <label className="block text-gray-700 text-sm font-bold ">Link da Foto do funcionário</label>
-            <input className="w-[18rem] shadow border rounded mb-3"  name="foto"onChange={(e) => setFoto(e.target.value)} type="text" placeholder="https://cdn.pixabay.com/photo/"/>
-            <label className="block text-gray-700 text-sm font-bold ">Descrição do funcionário</label>
+            <input className="w-[18rem] shadow border rounded mb-3"  name="contrato" onChange={(e) => setContrato(e.target.value)} type="text" placeholder="Maio - 1997"/>
+          <label className="block text-gray-700 text-sm font-bold ">Link da Foto do funcionário</label>
+            <input className="w-[18rem] shadow border rounded mb-3 "  name="foto"onChange={(e) => setFoto(e.target.value)} type="text" placeholder="https://cdn.pixabay.com/photo/"/>
+          <label className="block text-gray-700 text-sm font-bold ">Descrição do funcionário</label>
             <textarea className="w-[18rem] shadow border rounded mb-3"  name="desc"onChange={(e) => setDesc(e.target.value)} type="text" placeholder="Fulano, trabalhou em 5 empresas de desenvolvimento."/>
+            <div>
+      </div>
           <button type="submit" className='block my-3 bg-blue-600 rounded-2xl p-2 w-[8rem] text-white'>Salvar</button>
         </form>
       </div>

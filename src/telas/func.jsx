@@ -2,6 +2,8 @@ import { useEffect, useState, useRef, React } from "react";
 import { GoArrowLeft } from "react-icons/go";
 import generatePDF from 'react-to-pdf';
 import {Button,Dialog,DialogBody,DialogFooter} from "@material-tailwind/react"; 
+import InputMask from 'react-input-mask';
+
 
 const Func = () => {
 
@@ -10,7 +12,6 @@ const targetRef = useRef();
 const [banco_funcionarios, setFuncionarios] = useState([]);
 const [novoTelefone, setNovoTelefone] = useState([]);
 const [novoSalario, setNovoSalario] = useState([]);
-const [gerandoPDF, setGerandoPDF] = useState(false);
 
 const [openDialogIndex, setOpenDialogIndex] = useState(null);
 const handleOpenDialog = (index) => {
@@ -19,7 +20,6 @@ const handleOpenDialog = (index) => {
 const handleCloseDialog = () => {
   setOpenDialogIndex(null);
 };
-
 const [openDialogIndex1, setOpenDialogIndex1] = useState(null);
 const handleOpenDialog1 = (index) => {
   setOpenDialogIndex1(index);
@@ -27,7 +27,6 @@ const handleOpenDialog1 = (index) => {
 const handleCloseDialog1 = () => {
   setOpenDialogIndex1(null);
 };
-
 const [openDialogIndex2, setOpenDialogIndex2] = useState(null);
 const handleOpenDialog2 = (index) => {
   setOpenDialogIndex2(index);
@@ -41,9 +40,12 @@ function data() {
   .then ((response) => response.json())
   .then ((json) => setFuncionarios(json))
 }
-function Demitir(id) {
-  fetch(`http://localhost/Gerenciamento/api/demissao/${id}`,{body:post},{headers : {'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'}} ,{method: 'DELETE'});
-    alert("Funcionário removido do sistema!");
+function Demitir(id) { try{
+    fetch(`http://localhost/Gerenciamento/api/demissao/${id}`,{headers : {'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'}} ,{method: 'DELETE'});
+      alert("Funcionário removido do sistema!");
+     }catch {
+      alert("Erro ao remover funcionário");
+  }
 }
 function Telefone(id, novoTelefone) {
   const formData = new FormData();
@@ -75,6 +77,17 @@ useEffect(() => {
   data();
 }, []);
 
+const [preco, setPreco] = useState('');
+
+const Preco = (e) => {
+   let value = e.target.value.replace(/[^\d]/g, '');
+   value = `R$ ${value}`;
+   if (value.length > 3) {
+     value = `${value.slice(0,-2)}.${value.slice(-2)}`;
+   }
+   setPreco(value);
+};
+
   return (
     <div className="m-3">
       <button onClick={() => navigation.navigate('/')}><GoArrowLeft /></button>
@@ -101,7 +114,7 @@ useEffect(() => {
                         <form method="POST" >
                           <DialogBody className="bg-white rounded-lg">
                           <p className="block text-gray-700 text-sm font-bold ">Telefone</p>
-                            <input onChange={(e) => setNovoTelefone(e.target.value)} className="w-[15rem] shadow border rounded my-3 p-1" placeholder="Novo Telefone Aqui!"></input>
+                            <InputMask mask="(99) 9 9999-9999" maskChar="_" onChange={(e) => setNovoTelefone(e.target.value)} className="w-[15rem] shadow border rounded my-3 p-1" placeholder="Novo Telefone Aqui!"/>
                           </DialogBody>
                           <DialogFooter >
                           <Button onClick={() => {Telefone(usuarios.id_funcionario, novoTelefone)}} className='block my-3 bg-gray-600 rounded-2xl p-2 text-white'>Guardar Telefone</Button>
@@ -112,14 +125,13 @@ useEffect(() => {
                 <p className="block text-gray-700 text-sm font-bold ">Cargo</p>
                   <p>{usuarios.nm_cargo}</p>
                 <p className="block text-gray-700 text-sm font-bold ">Salário</p>
-                  <p>R${usuarios.vl_salario},00</p>
-      
+                  <p>{usuarios.vl_salario}</p>
                     <Button className='font-light my-3 bg-gray-600 rounded-2xl p-2 text-white' onClick={() => handleOpenDialog1(index)}>Adicionar promoção</Button>
                       <Dialog open={openDialogIndex1 === index} size="xs" handler={handleCloseDialog1}>
                         <form method="POST" >
                           <DialogBody className="bg-white rounded-lg">
                           <p className="block text-gray-700 text-sm font-bold ">Salário Novo</p>
-                            <input onChange={(e) => setNovoSalario(e.target.value)} className="w-[15rem] shadow border rounded my-3 p-1" placeholder="Novo Salário Aqui!"></input>
+                            <input value={preco} onChange={Preco} onBlur={(e) => setNovoSalario(e.target.value)}  className="w-[15rem] shadow border rounded my-3 p-1" placeholder="Novo Salário Aqui!"></input>
                           </DialogBody>
                           <DialogFooter >
                           <Button onClick={() => {Salario(usuarios.id_funcionario, novoSalario)}} className='block my-3 bg-gray-600 rounded-2xl p-2 text-white'>Guardar Promoção</Button>
@@ -142,8 +154,8 @@ useEffect(() => {
                   <Button onClick={handleCloseDialog} className='block bg-gray-600 rounded-2xl p-2 text-white'>Fechar</Button>
                 </DialogFooter>
               </Dialog>
-            
-              <button className={`my-1 bg-red-600 rounded-2xl p-1 col-span-2 text-white ${gerandoPDF && 'btn-pdf-exclude'}`} onClick={() => Demitir(usuarios.id_funcionario)}>Demitir</button>           
+
+              <button className="my-1 bg-red-600 rounded-2xl p-1 col-span-2 text-white" onClick={() => Demitir(usuarios.id_funcionario)}>Demitir</button>           
           <hr className="col-span-2 border-l-slate-700 my-3 drop-shadow" />
          </div> )}
         </form>
