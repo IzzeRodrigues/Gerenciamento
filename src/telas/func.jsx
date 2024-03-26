@@ -6,6 +6,7 @@ import generatePDF from 'react-to-pdf';
 
 const Func = () => {
 
+ 
 const targetRef = useRef();
 const [banco_funcionarios, setFuncionarios] = useState([]);
 const [novoTelefone, setNovoTelefone] = useState([]);
@@ -150,11 +151,7 @@ const Preco = (e) => {
                   <Button onClick={handleCloseDialog} className='block bg-gray-600 rounded-2xl p-2 text-white'>Fechar</Button>
                 </DialogFooter>
               </Dialog>
-{/* 
-              <div data-html2canvas-ignore="false" className="border-black rounded-lg shadow-sm">
-                <p>Veja o Histórico de {usuarios.nm_funcionario}</p>
-                <p>{usuarios.dc_descricao}</p>
-              </div> */}
+
               <button data-html2canvas-ignore="true" className="my-1 bg-red-600 rounded-2xl p-1 col-span-2 text-white" onClick={() => Demitir(usuarios.id_funcionario)}>Demitir</button>  
 
           <hr className="col-span-2 border-l-slate-700 my-3 drop-shadow" />
