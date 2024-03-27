@@ -15,6 +15,8 @@ Vercel, Github
 - Com o Servidor aberto, basta rodar o react por NPM RUN DEV pelo terminal, e por meio de uma porta (aberta por um host local) upar a database para ver as páginas e funcionalidades (db_gestao.sql disponível na pasta da api).
 (recomendação de resolução: 16:9, mobile)
 
+- Você pode ver o projeto pelo Vercel, porém, somente as páginas, front-end etc. Para ver o restante que depende do banco, precisa upar e sincronizar com a database (db_gestao.sql)  
+
 # O que eu faço?
 
 O App Gerenciamento, é capaz de cadastrar novos funcionários, com seus dados pessoas e empresariais por meio de um formulário. Ele tem uma tela para que todos os funcionários ativos sejam exibidos com suas fotos, podendo assim alterar seu meio de contato (telefone), adicionar uma promoção em seu salário, e também demiti-lo a qualquer momento. Nessa mesma tela, por meio de um botão, o operador do app pode exibir o histórico profissional desse funcionário, e também pode gerar um pdf ao final da página, que printa todos os funcionários ativos na empresa, com suas alterações devidamente atualizadas.
@@ -36,6 +38,9 @@ Vercel, Git
 
 - With the server open, simply run React by NPM RUN DEV in the terminal, and through a port (opened by a local host), upload the database to see the pages and features(db_gestao.sql available on the api folder).
 (recommend resolution: 16:9, Mobile)
+
+- You can see this project in the Vercel link deploy, but, only pages, front-end and so on. To see other features that depends on the database, you need to upload and sync with the database (db_gestao.sql)  
+
 
 # What do I do?
 
