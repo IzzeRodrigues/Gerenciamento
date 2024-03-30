@@ -20,7 +20,7 @@ Vercel, Github
 # O que eu faço?
 
 O App Gerenciamento, é capaz de cadastrar novos funcionários, com seus dados pessoas e empresariais por meio de um formulário. Ele tem uma tela para que todos os funcionários ativos sejam exibidos com suas fotos, podendo assim alterar seu meio de contato (telefone), adicionar uma promoção em seu salário, e também demiti-lo a qualquer momento. Nessa mesma tela, por meio de um botão, o operador do app pode exibir o histórico profissional desse funcionário, e também pode gerar um pdf ao final da página, que printa todos os funcionários ativos na empresa, com suas alterações devidamente atualizadas.
-
+Obs.: os wireframes estão disponíveis na pasta do app.
 
 # React + Vite
 
@@ -45,3 +45,4 @@ Vercel, Git
 # What do I do?
 
 The Gerenciamento App is capable of registering new employees, capturing both personal and professional data through a form. It haves a screen where all active employees are listed with their pictures, allowing for the modification of their contact information (phone number), addition of salary promotions, and termination at any time. Within this same screen, via a button, the user can view the professional history of the employee, and generate a PDF at the bottom of the page, which prints all active employees in the company, with their updates duly recorded.
+Note: the wireframes are available at the app folder.
